@@ -26,14 +26,5 @@ public class Factory implements DbElementMaker{
     }
 
 
-
-    /*
-
-    protected DbElement make(String element);
-
-    public DbElement makeElement(String str){
-        DbElement element = this.make(str);
-*/
-
 }
 

@@ -1,20 +1,17 @@
 package ar.uba.fi.tdd.rulogic.model;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class Fact implements DbElement {
-    protected HashMap<String,Integer> values; //establece el valor y el orden que debería estar en la evaluación
+    protected LinkedList<String> arguments; //establece el valor y el orden que debería estar en la evaluación
     protected String name;
 
 
-    public Fact(String name, HashMap<String,Integer> values) {
+    public Fact(String name, LinkedList<String> arguments) {
         this.name = name;
-        this.values = values;
-    }
-
-    public boolean contains(String value){
-        return this.values.containsKey(value);
+        this.arguments = arguments;
     }
 
 
@@ -22,19 +19,16 @@ public class Fact implements DbElement {
         return name;
     }
 
-    public boolean evaluate(String name, HashMap<String, Integer> values, KnowledgeBase db){
+    public boolean evaluate(String name, LinkedList<String> arguments, KnowledgeBase db){
+        int position = 0;
 
         if (!this.name.equals(name)) return false;
 
-        if (this.values.size() != values.size()) return false;
+        if (this.arguments.size() != arguments.size()) return false;
 
-        for (Map.Entry<String, Integer> entry: this.values.entrySet()) {
-            // Check if the current value is a key in the 2nd map
-            if (!values.containsKey(entry.getKey())) return false;
-
-            Integer value = entry.getValue();
-            if (!value.equals( values.get(entry.getKey()))) return false;
-
+        for (String argument : arguments){
+            position = arguments.indexOf(argument);
+            if (argument.equals(this.arguments.get(position))) return false ;
         }
 
         return true;
@@ -45,6 +39,6 @@ public class Fact implements DbElement {
 
 //    @Override
 //    public int hashCode() {
-//        return this.values.size() * this.name.length();
+//        return this.arguments.size() * this.name.length();
 //    }
 }

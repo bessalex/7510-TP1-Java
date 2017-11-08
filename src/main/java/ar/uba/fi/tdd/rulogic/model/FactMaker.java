@@ -1,7 +1,8 @@
 package ar.uba.fi.tdd.rulogic.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,11 +10,13 @@ public class FactMaker implements DbElementMaker{
     private DbElementMaker next;
 
     private Pattern splitPattern; // patron de split de parametros
-    private Pattern pattern;   // Patron utilizado para separar Nombre del Fact con argumentos
+    private Pattern pattern;   // Patron verificar si es facts
+    private Pattern groupsPatter;   // Patron verificar si es facts
 
     public FactMaker(){
         this.pattern = Pattern.compile("(\\w+)[ ]*[(]{1}[ ]*((\\w+(?:(,[ ]*)*))+)[ ]*[)]{1}[ ]*.");
         this.splitPattern = Pattern.compile("[ ]*,[ ]*");
+        this.groupsPatter = Pattern.compile("(\\w+)[ ]*[(]{1}[ ]*((\\w+(?:(,[ ]*)*))+)[ ]*([)]{1})?[ ]*(.)?");
     }
 
 
@@ -28,16 +31,11 @@ public class FactMaker implements DbElementMaker{
     public DbElement make(String element){
         if (!this.isFact(element)) return this.next.make(element);
 
-        ArrayList<String> parseFact = this.parserFact(element); // Obtengo nombre y Argumentos
+        ArrayList<String> parseFact = this.parser(element); // Obtengo nombre y Argumentos
 
-        HashMap<String,Integer> argumentsOrder = new HashMap<String,Integer>(); //
+        LinkedList<String> arguments = this.getArguments(parseFact.get(1));
 
-        String[] arguments = this.splitPattern.split(parseFact.get(1));
-        for (int i = 0; i < arguments.length; i++) {
-            argumentsOrder.put(arguments[i],i);
-        }
-
-        return new Fact(parseFact.get(0),argumentsOrder);
+        return new Fact(parseFact.get(0),arguments);
 
     }
 
@@ -46,14 +44,21 @@ public class FactMaker implements DbElementMaker{
         return pattern.matcher(element).matches();
     }
 
-    private ArrayList<String> parserFact(String element){
+    protected ArrayList<String> parser(String element){
         ArrayList<String> fact = new ArrayList<String>();
 
-        Matcher matcher = this.pattern.matcher(element);
+        Matcher matcher = this.groupsPatter.matcher(element);
         matcher.find();
-        fact.add(new String(matcher.group(1)));  // nombre de la fact
-        fact.add(new String (matcher.group(2))); // argumentos de la mísma
+        fact.add(matcher.group(1));  // nombre de la fact
+        fact.add(matcher.group(2)); // argumentos de la mísma
         return fact;
+    }
+
+    protected LinkedList<String> getArguments(String strArguments){
+        LinkedList<String> arguments = new LinkedList<String>();
+        String[] vArguments = this.splitPattern.split(strArguments);
+        Collections.addAll(arguments,vArguments);
+        return arguments;
     }
 
 }

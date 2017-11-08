@@ -1,35 +1,12 @@
 package ar.uba.fi.tdd.rulogic.model;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public interface DbElement {
-//    protected String name;
 
-//    DbElement(String name);
-//    {
-//        System.out.println("Nombre: " + name); //TODO: eliminar
-//        this.name = name;
-//    }
+    String getName();
 
-    public String getName();
-
-    public boolean evaluate(String name, HashMap<String, Integer> values, KnowledgeBase db);
-//    {
-//        System.out.println(this.name);
-//        return this.name;
-//    }
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (o instanceof DbElement) {
-//            DbElement p = (DbElement)o;
-//            return this.name.equals(p.name);
-//        } else {
-//            return false;
-//        }
-//    }
-//
-//    @Override
-//    public abstract int hashCode();
+    boolean evaluate(String name, LinkedList<String> arguments, KnowledgeBase db);
 
 }
