@@ -7,6 +7,8 @@ public interface DbElement {
 
     String getName();
 
+    LinkedList<String> getArguments();
+
     boolean evaluate(String name, LinkedList<String> arguments, KnowledgeBase db);
 
 }

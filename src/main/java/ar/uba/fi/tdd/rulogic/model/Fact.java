@@ -19,6 +19,10 @@ public class Fact implements DbElement {
         return name;
     }
 
+    public LinkedList<String> getArguments() {
+        return arguments;
+    }
+
     public boolean evaluate(String name, LinkedList<String> arguments, KnowledgeBase db){
         int position = 0;
 

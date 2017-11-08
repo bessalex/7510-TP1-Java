@@ -32,35 +32,33 @@ public class Rule  implements DbElement {
         return name;
     }
 
-    public boolean evaluate(String name, LinkedList<String> arguments, KnowledgeBase db) {
-        return true;
+    public LinkedList<String> getArguments() {
+        return arguments;
     }
 
-//        if (!this.name.equals(name)) return false;
-//
-//        if (this.params.size() != arguments.size()) return false;
-//
-//
-//        for (Map.Entry<String, LinkedList<Integer>> entry: this.facts.entrySet()) {
-//            LinkedList<DbElement> facts = db.getElementsByName(entry.getKey());
-//
-//            for (DbElement fact : facts){
-//
-//
-//                fact.evaluate(fact.getName(),)
-//            }
-//
-//
-//            // Check if the current value is a key in the 2nd map
-//            if (!arguments.containsKey(entry.getKey())) return false;
-//
-//            Integer value = entry.getValue();
-//            if (!value.equals( arguments.get(entry.getKey()))) return false;
-//
-//        }
-//
-//        return true;
-//    }
+    public boolean evaluate(String name, LinkedList<String> queryArguments, KnowledgeBase db) {
+
+        if (!this.name.equals(name)) return false;
+
+        if (this.arguments.size() != queryArguments.size()) return false;
+
+
+        for (Map.Entry<String, LinkedList<Integer>> entry: this.facts.entrySet()) {
+            LinkedList<DbElement> facts = db.getElementsByName(entry.getKey());
+            LinkedList<Integer> orderList = entry.getValue();
+
+            for (DbElement fact : facts){
+                LinkedList<String> orderQuery = new LinkedList<String>();
+                for (Integer order : orderList){
+                    orderQuery.add(queryArguments.get(order));
+                }
+
+                if (!fact.evaluate(fact.getName(),orderQuery, db)) return false;
+            }
+        }
+
+        return true;
+    }
 
 
 //    private HashMap<String, Integer> getValuesInOrder(HashMap<String, Integer> arguments, LinkedList<Integer> orders){
