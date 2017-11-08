@@ -4,24 +4,27 @@ import java.util.*;
 
 public class Rule  implements DbElement {
     protected String name;
-    protected HashMap<String,Integer> params; //establece el valor y el orden que debería estar en la evaluación
+    protected LinkedList<String> arguments; //establece el valor y el orden que debería estar en la evaluación
     protected HashMap<String,LinkedList<Integer>> facts;
 
 
-    public Rule(String name, HashMap<String,Integer> params){
+    public Rule(String name, LinkedList<String> arguments){
         this.name = name;
-        this.params = params;
+        this.arguments = arguments;
         this.facts = new HashMap<String,LinkedList<Integer>>();
     }
 
-    public void addValue(String FactName, LinkedList<String> Factparams ){
-        LinkedList<Integer> orderArgs = new LinkedList<Integer>();
+    public void addFact(String name, LinkedList<String> parameters ){
+        LinkedList<Integer> orderParameters = new LinkedList<Integer>();
+        int order;
 
-        for (Iterator<String> i = Factparams.iterator(); i.hasNext();) {
-            orderArgs.add(this.params.get(i.next()));
+        for(String parameter: parameters){
+            order = this.arguments.indexOf(parameter);
+            if (order < 0) throw new NoSuchElementException("Parámetro no encontrado en argumentos de Rule");
+            orderParameters.add(order);
         }
 
-        this.facts.put(FactName,orderArgs);
+        this.facts.put(name,orderParameters);
     }
 
 
@@ -29,13 +32,13 @@ public class Rule  implements DbElement {
         return name;
     }
 
-    public boolean evaluate(String name, HashMap<String, Integer> values, KnowledgeBase db) {
+    public boolean evaluate(String name, LinkedList<String> arguments, KnowledgeBase db) {
         return true;
     }
 
 //        if (!this.name.equals(name)) return false;
 //
-//        if (this.params.size() != values.size()) return false;
+//        if (this.params.size() != arguments.size()) return false;
 //
 //
 //        for (Map.Entry<String, LinkedList<Integer>> entry: this.facts.entrySet()) {
@@ -49,10 +52,10 @@ public class Rule  implements DbElement {
 //
 //
 //            // Check if the current value is a key in the 2nd map
-//            if (!values.containsKey(entry.getKey())) return false;
+//            if (!arguments.containsKey(entry.getKey())) return false;
 //
 //            Integer value = entry.getValue();
-//            if (!value.equals( values.get(entry.getKey()))) return false;
+//            if (!value.equals( arguments.get(entry.getKey()))) return false;
 //
 //        }
 //
@@ -60,7 +63,7 @@ public class Rule  implements DbElement {
 //    }
 
 
-//    private HashMap<String, Integer> getValuesInOrder(HashMap<String, Integer> values, LinkedList<Integer> orders){
+//    private HashMap<String, Integer> getValuesInOrder(HashMap<String, Integer> arguments, LinkedList<Integer> orders){
 //        HashMap<String,Integer> orderValues = new HashMap<String, Integer>();
 //
 //        for( Integer order: orders){
