@@ -28,8 +28,8 @@ public class FactMaker implements DbElementMaker{
         return this.next;
     }
 
-    public DbElement make(String element){
-        if (!this.isFact(element)) return this.next.make(element);
+    public DbElement make(String element, KnowledgeBase db){
+        if (!this.isFact(element)) return this.next.make(element, db);
 
         ArrayList<String> parseFact = this.parser(element); // Obtengo nombre y Argumentos
 

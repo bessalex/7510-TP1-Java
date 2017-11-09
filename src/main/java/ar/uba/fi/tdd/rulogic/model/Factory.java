@@ -21,8 +21,8 @@ public class Factory implements DbElementMaker{
         return this.next;
     }
 
-    public DbElement make(String element){
-        return this.next.make(element);
+    public DbElement make(String element, KnowledgeBase db){
+        return this.next.make(element,db);
     }
 
 

@@ -32,7 +32,7 @@ public class Fact implements DbElement {
 
         for (String argument : arguments){
             position = arguments.indexOf(argument);
-            if (argument.equals(this.arguments.get(position))) return false ;
+            if (!argument.equals(this.arguments.get(position))) return false ;
         }
 
         return true;

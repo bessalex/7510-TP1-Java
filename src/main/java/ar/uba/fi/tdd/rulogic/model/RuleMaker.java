@@ -27,8 +27,8 @@ public class RuleMaker extends FactMaker implements DbElementMaker{
         return this.next;
     }
 
-    public DbElement make(String element){
-        if (!this.isRule(element)) return this.next.make(element);
+    public DbElement make(String element, KnowledgeBase db){
+        if (!this.isRule(element)) return this.next.make(element, db);
 
         ArrayList<String> parseRule = this.parserRule(element); // Obtengo nombre, Argumentos y Facts
 
@@ -39,6 +39,9 @@ public class RuleMaker extends FactMaker implements DbElementMaker{
 
         for(String fact: facts){
             ArrayList<String> factDef = this.parser(fact);
+            if (!db.contains(factDef.get(0)))
+                throw new IllegalArgumentException("Rule con Fact inexistente en Rule : "+ factDef.get(0));
+
             LinkedList<String> arguments = this.getArguments(factDef.get(1));
             rule.addFact(factDef.get(0),arguments);
         }

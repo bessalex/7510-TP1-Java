@@ -42,18 +42,21 @@ public class Rule  implements DbElement {
 
         if (this.arguments.size() != queryArguments.size()) return false;
 
-
+        // Por cada Fact contenida en la Rule
         for (Map.Entry<String, LinkedList<Integer>> entry: this.facts.entrySet()) {
-            LinkedList<DbElement> facts = db.getElementsByName(entry.getKey());
+            // Obtengo los argumentos de la fact
+            LinkedList<DbElement> elementList = db.getElementList(entry.getKey());
+            // obtengo la lista de orden en que colocar los argumentos
             LinkedList<Integer> orderList = entry.getValue();
 
-            for (DbElement fact : facts){
+            // Para cada elemento de la lista de Facts
+            for (DbElement element : elementList){
                 LinkedList<String> orderQuery = new LinkedList<String>();
                 for (Integer order : orderList){
                     orderQuery.add(queryArguments.get(order));
                 }
 
-                if (!fact.evaluate(fact.getName(),orderQuery, db)) return false;
+                if (!element.evaluate(element.getName(),orderQuery, db)) return false;
             }
         }
 
