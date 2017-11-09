@@ -2,6 +2,7 @@ package ar.uba.fi.tdd.rulogic.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.IllegalFormatException;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,11 +29,10 @@ public class FactMaker implements DbElementMaker{
         return this.next;
     }
 
-    public DbElement make(String element, KnowledgeBase db){
-        if (!this.isFact(element)) return this.next.make(element, db);
+    public DbElement make(String element, KnowledgeBase db) throws IllegalArgumentException {
+        if (!this.isFact(element)) throw new IllegalArgumentException("Elemento de formato desconocido ("+ element+")");
 
         ArrayList<String> parseFact = this.parser(element); // Obtengo nombre y Argumentos
-
         LinkedList<String> arguments = this.getArguments(parseFact.get(1));
 
         return new Fact(parseFact.get(0),arguments);

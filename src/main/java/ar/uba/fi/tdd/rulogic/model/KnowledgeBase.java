@@ -20,8 +20,7 @@ public class KnowledgeBase {
         queryMaker = new FactMaker();
     }
 
-    public void load(String filename) throws IOException {
-
+    public void load(String filename) throws IOException, IllegalArgumentException  {
 
         FileReader file = new FileReader(filename);
         BufferedReader br = new BufferedReader(file);
@@ -45,9 +44,9 @@ public class KnowledgeBase {
         this.database.put(name,arguments);
     }
 
-	public boolean answer(String query) {
+	public boolean answer(String query) throws IllegalArgumentException{
 
-        if (!queryMaker.isFact(query)) return false;
+        if (!queryMaker.isFact(query)) throw new IllegalArgumentException("Consulta mal formada");
 
         DbElement queryElement = queryMaker.make(query,this);
 

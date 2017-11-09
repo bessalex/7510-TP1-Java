@@ -27,7 +27,7 @@ public class RuleMaker extends FactMaker implements DbElementMaker{
         return this.next;
     }
 
-    public DbElement make(String element, KnowledgeBase db){
+    public DbElement make(String element, KnowledgeBase db) throws IllegalArgumentException {
         if (!this.isRule(element)) return this.next.make(element, db);
 
         ArrayList<String> parseRule = this.parserRule(element); // Obtengo nombre, Argumentos y Facts

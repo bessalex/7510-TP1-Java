@@ -10,12 +10,14 @@ import org.mockito.InjectMocks;
 
 public class FactMakerTest {
     @InjectMocks
+    private KnowledgeBase db;
     private Factory factory;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         this.factory = new Factory();
+        this.db = new KnowledgeBase();
     }
 
     @After
@@ -25,24 +27,24 @@ public class FactMakerTest {
     @Test
     public void crearFact_OK_Test() {
 
-        DbElement elem = this.factory.make("Mujer(Nadia).");
+        DbElement elem = this.factory.make("Mujer(Nadia).", db);
         Assert.assertEquals(elem.getName(), "Mujer");
     }
 
     @Test
     public void crearFact_NullPointerException_Test(){
         try {
-            DbElement elem = this.factory.make("Fact((error)).");
+            DbElement elem = this.factory.make("Fact((error)).",db);
             Assert.fail("Debe dar NullPointerException");
         }catch(Exception e){
-            Assert.assertEquals(NullPointerException.class,e.getClass());
+            Assert.assertEquals(IllegalArgumentException.class,e.getClass());
         }
     }
 
 
     @Test
     public void crearFact_MultiplesArgumentos_Test(){
-        DbElement elem = this.factory.make("River(Saracchi,Maidana,Pinola,Moreira).");
+        DbElement elem = this.factory.make("River(Saracchi,Maidana,Pinola,Moreira).",db);
         Assert.assertEquals(elem.getName(), "River");
     }
 
