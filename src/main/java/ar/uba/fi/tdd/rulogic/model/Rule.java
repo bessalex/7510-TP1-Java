@@ -42,8 +42,11 @@ public class Rule  implements DbElement {
 
         if (this.arguments.size() != queryArguments.size()) return false;
 
+        boolean found;
+
         // Por cada Fact contenida en la Rule
         for (Map.Entry<String, LinkedList<Integer>> entry: this.facts.entrySet()) {
+            found = false;
             // Obtengo los argumentos de la fact
             LinkedList<DbElement> elementList = db.getElementList(entry.getKey());
             // obtengo la lista de orden en que colocar los argumentos
@@ -56,27 +59,13 @@ public class Rule  implements DbElement {
                     orderQuery.add(queryArguments.get(order));
                 }
 
-                if (!element.evaluate(element.getName(),orderQuery, db)) return false;
+                if (element.evaluate(element.getName(),orderQuery, db)){ found = true;}
             }
+            if (!found) return false;
+
         }
 
         return true;
     }
-
-
-//    private HashMap<String, Integer> getValuesInOrder(HashMap<String, Integer> arguments, LinkedList<Integer> orders){
-//        HashMap<String,Integer> orderValues = new HashMap<String, Integer>();
-//
-//        for( Integer order: orders){
-//            orderValues.
-//        }
-//
-//        return orderValues;
-//    }
-
-//    @Override
-//    public int hashCode() {
-//        return this.params.size() * this.name.length();
-//    }
 
 }

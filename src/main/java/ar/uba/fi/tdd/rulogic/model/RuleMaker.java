@@ -13,7 +13,7 @@ public class RuleMaker extends FactMaker implements DbElementMaker{
     private Pattern splitFactsPattern; // patron de split de parametros
     private Pattern pattern;   // Patron utilizado para separar Nombre del Fact con argumentos
 
-    public RuleMaker(){  //(\\w+)[ ]*[(]{1}[ ]*((?:\\w+(?:(?:,[ ]*)*))+)[)]{1}[ ]*:-[ ]*((?:(?:(?:\\w+[ ]*[(]{1})+(?:\\w+(?:(?:,[ ]*)*))+(?:[)]{1}))(?:,[ ]*)*)+).
+    public RuleMaker(){
         super();
         this.pattern = Pattern.compile("(\\w+)\\s*[(]{1}\\s*((?:\\w+(?:(?:,\\s*)*))+)[)]{1}\\s*:-\\s*((?:(?:(?:\\w+\\s*[(]{1})+(?:\\w+(?:(?:,\\s*)*))+(?:[)]{1}))(?:,\\s*)*)+).");
         this.splitFactsPattern = Pattern.compile("\\)[ ]*,[ ]*");

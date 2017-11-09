@@ -1,11 +1,9 @@
 package ar.uba.fi.tdd.rulogic.model;
 
-import sun.awt.image.ImageWatched;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 

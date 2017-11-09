@@ -1,6 +1,5 @@
 package ar.uba.fi.tdd.rulogic.model;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 
 public interface DbElement {

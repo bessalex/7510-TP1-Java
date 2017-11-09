@@ -2,7 +2,6 @@ package ar.uba.fi.tdd.rulogic.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.IllegalFormatException;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,7 +39,6 @@ public class FactMaker implements DbElementMaker{
     }
 
     public boolean isFact(String element){
-  //      System.out.println("isFact: " + element + "es?: " + this.pattern.matcher(element).matches());
         return pattern.matcher(element).matches();
     }
 

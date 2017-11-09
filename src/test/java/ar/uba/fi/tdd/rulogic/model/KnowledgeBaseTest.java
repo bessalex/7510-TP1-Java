@@ -37,6 +37,34 @@ public class KnowledgeBaseTest {
         }
     }
 
+
+    @Test
+    public void loadFile_archivo_vacío_No_cancela_Test() {
+        KnowledgeBase knowledgeBase = new KnowledgeBase();
+        try {
+            knowledgeBase.load("src/main/resources/empty.db");
+            Assert.assertFalse(knowledgeBase.answer("add(one, one, two)."));
+        }catch(java.util.NoSuchElementException e){
+            Assert.fail("No debía cancelar");
+        }catch(IOException e){
+            Assert.fail("No debía cancelar");
+        }
+    }
+
+
+    @Test
+    public void loadFile_archivo_vacío_consulta_Test() {
+        KnowledgeBase knowledgeBase = new KnowledgeBase();
+        try {
+            knowledgeBase.load("src/main/resources/empty.db");
+        }catch(java.util.NoSuchElementException e){
+            Assert.fail("No debía cancelar");
+        }catch(IOException e){
+            Assert.fail("No debía cancelar");
+        }
+    }
+
+
     @Test
     public void loadFile_Fact_contenida_en_rule_inexistente_Test() {
         KnowledgeBase knowledgeBase = new KnowledgeBase();
